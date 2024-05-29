@@ -1,0 +1,16 @@
+{
+  "name": "petals-node",
+  "version": "1.0.0",
+  "main": "petals-node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "node-red" : {
+    "nodes": {
+      "petals-node": "petals-node.js"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<script type="text/javascript">
+    RED.nodes.registerType('petals', {
+        category: 'ReEnvision AI',
+        color: '#a6bbcf',
+        defaults: {
+            model: {value: "auto", required: true},
+            frequency_bias: {value: 0.0, validate: function(v){
+                v = parseFloat(v);
+                return (v >= -2 && v <= 2);
+            }},
+            logit_bias: {value: true},
+            logprobs: {value: true},
+            top_logprobs: {value: 0, validate: function(v){
+                v = parseInt(v);
+                return (v >= 0 && v <= 20);
+            }},
+            max_tokens: {value: 100, required: true, validate: function(v){
+                v = parseInt(v);
+                return (v >= 1 && v <= 1024);
+            }},
+            n_value: {value: 0},
+            presence_penalty: {value: 0, validate: function(v){
+                v = parseFloat(v);
+                return (v >= -2.0 && v <= 2.0);
+            }},
+            stop_ : {value: ""},
+            stream: {value: false},
+            temperature: {value: 0.6, validate: function(v){
+                v = parseFloat(v);
+                return (v >= 0.0 && v <= 2.0);
+            }},
+            top_p: {value: 0.0}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "file.svg",
+        label: "Petals",
+        oneditprepare: function() {
+            $("#node-input-stream").typedInput({
+                type: "bool",
+                value: false
+            })
+
+            $("#node-input-model").typedInput({
+                types: [
+                    {
+                        value: "model",
+                        options: [
+                            { value: "auto", label: "Auto"},
+                            { value: "petals-team/StableBeluga2", label: "Stable Beluga"}
+                        ]
+                    }
+                ]
+            })
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="petals">
+    <div class="form-row">
+        <label for="node-input-model"><i class="fa fa-cogs"></i>Model</label>
+        <input type="text" id="node-input-model" placeholder="auto">
+    </div>
+    <div class="form-row">
+        <label for="node-input-frequency_bias"><i class="fa fa-balance-scale">Frequency Bias</i></label>
+        <input type="text" id="node-input-frequency_bias" placeholder="0.0">
+    </div>
+    <div class="form-row">
+        <label for="node-input-max_tokens"><i class="fa fa-tag">Max Tokens</i></label>
+        <input type="text" id="node-input-max_tokens" placeholder="100">
+    </div>
+    <div class="form-row">
+        <label for="node-input-stream"><i class="fa fa-tag">Stream</i></label>
+        <input type="hidden" id="node-input-stream" placeholder="false">
+    </div>
+    <div class="form-row">
+        <label for="node-input-presence_penalty"><i class="fa fa-tag">Presence Penalty</i></label>
+        <input type="text" id="node-input-presence_penalty" placeholder="0.0">
+    </div>
+    <div class="form-row">
+        <label for="node-input-temperature"><i class="fa fa-tag">Temperature</i></label>
+        <input type="text" id="node-input-temperature" placeholder="0.6">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="lower-case">
+    <p>A simple node that converts input into generated text via petals</p>
+</script>
