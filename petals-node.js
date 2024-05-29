@@ -1,6 +1,7 @@
 module.exports = function(RED) {
 
-    function parseResponse(result, send, done, msg) {
+    function parseResponse(result, send, done, msg, node) {
+        node.status({fill: "green", shape: "dot", text: "generated"})
         console.log(result);
         result = JSON.parse(result)
         result = result['choices'][0]['message']['content']
@@ -19,6 +20,7 @@ module.exports = function(RED) {
         node.on('input', function(msg, send, done) {
             send = send || function() { node.send.apply(node, arguments)}
 
+            node.status({})
             
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -45,11 +47,12 @@ module.exports = function(RED) {
             };
             console.log(requestOptions)
             
+            node.status({fill:"yellow", shape: "dot", text:"generating"})
 
             fetch("http://127.0.0.1:5000/v1/chat/completions/", requestOptions)
             .then((response) => response.text())
-            .then((result) => parseResponse(result, send, done, msg))
-            .catch((error) => node.error(error));
+            .then((result) => parseResponse(result, send, done, msg, node))
+            .catch((error) => { node.error(error); node.status({fill: "red", shape: "dot", text: "error"});});
 
             //doSomeAsyncWork(msg, function(result) {
             //    msg.payload = result;
