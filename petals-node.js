@@ -53,12 +53,6 @@ module.exports = function(RED) {
             .then((response) => response.text())
             .then((result) => parseResponse(result, send, done, msg, node))
             .catch((error) => { node.error(error); node.status({fill: "red", shape: "dot", text: "error"});});
-
-            //doSomeAsyncWork(msg, function(result) {
-            //    msg.payload = result;
-            //    node.send(msg);
-            //    node.done();
-            //});
             
             return;
         });
