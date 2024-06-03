@@ -10,6 +10,7 @@ git clone git@github.com:ReEnvision-AI/petals-node.git
 ### Add to the Node Red installation
 In your node-red user directory, typically `~/.node-red` run:
 ```
+cd ~/.node-red
 npm install <location of petals-node directory>
 ```
 
