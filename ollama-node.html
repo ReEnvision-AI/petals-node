@@ -1,9 +1,9 @@
 <script type="text/javascript">
-    RED.nodes.registerType('petals', {
+    RED.nodes.registerType('ollama', {
         category: 'ReEnvision AI',
         color: '#FDF0C2',
         defaults: {
-            model: {value: "auto", required: true},
+            model: {value: "phi3:mini", required: true},
             frequency_bias: {value: 0.0, validate: function(v){
                 v = parseFloat(v);
                 return (v >= -2 && v <= 2);
@@ -34,7 +34,7 @@
         inputs: 1,
         outputs: 1,
         icon: "serial.svg",
-        label: "Petals",
+        label: "Ollama",
         oneditprepare: function() {
             $("#node-input-stream").typedInput({
                 type: "bool",
@@ -46,8 +46,7 @@
                     {
                         value: "model",
                         options: [
-                            { value: "auto", label: "Auto"},
-                            { value: "petals-team/StableBeluga2", label: "Stable Beluga"}
+                            { value: "phi3:mini", label: "phi3:mini"},
                         ]
                     }
                 ]
@@ -56,10 +55,10 @@
     });
 </script>
 
-<script type="text/html" data-template-name="petals">
+<script type="text/html" data-template-name="ollama">
     <div class="form-row">
         <label for="node-input-model"><i class="fa fa-cogs"></i>Model</label>
-        <input type="text" id="node-input-model" placeholder="auto">
+        <input type="text" id="node-input-model">
     </div>
     <div class="form-row">
         <label for="node-input-frequency_bias"><i class="fa fa-balance-scale">Frequency Bias</i></label>
@@ -83,6 +82,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="petals">
+<script type="text/html" data-help-name="ollama">
     <p>A simple node that converts input into generated text via petals</p>
 </script>

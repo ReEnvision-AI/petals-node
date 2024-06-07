@@ -8,9 +8,18 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "node-red" : {
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
     "nodes": {
-      "petals-node": "petals-node.js"
+      "petals-node": "petals-node.js",
+      "agent-node": "agent-node.js",
+      "task-node": "task-node.js",
+      "ollama-node": "ollama-node.js"
     }
+  },
+  "dependencies": {
+    "openai": "^4.49.1"
   }
 }

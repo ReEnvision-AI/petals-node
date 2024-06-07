@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('agent', {
+        category: 'ReEnvision AI',
+        color: '#C7E9C0',
+        defaults: {
+            name: {value:""},
+            goal: {value:""},
+            backstory: {value:""}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "serial.svg",
+        label: function() {
+            return this.name || "Agent";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="agent">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-goal">Goal</label>
+        <input type="text" id="node-input-goal" placeholder="Goal">
+    </div>
+    <div class="form-row">
+        <label for="node-input-backstory">Backstory</label>
+        <input type="text" id="node-input-backstory" placeholder="Backstory">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="agent">
+    <p>An agent node</p>
+</script>

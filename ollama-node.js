@@ -1,5 +1,3 @@
-
-
 module.exports = function(RED) {
 
     function parseResponse(result, send, done, msg, node) {
@@ -29,29 +27,33 @@ module.exports = function(RED) {
         if (msg.payload) {
             payload += "Insights: " + msg.payload + "\n"
         }
+        console.log(payload)
         return payload
     }
 
-    // Petals node constructor
-    function Petals(config) {
+    // Ollama node constructor
+    function Ollama(config) {
         RED.nodes.createNode(this, config);
         this.model = config.model
         this.max_tokens = config.max_tokens
         this.stream = config.stream
-        this.url = "http://127.0.0.1"
-        this.port = "5000"
+        
+        this.url = "http://localhost"
+        this.port = "11434"
+        this.baseurl = this.url + ":" + this.port + "/v1";
 
         var openai;
         import('openai').then((oai) => {
             openai = new oai.OpenAI({
-                baseURL: this.url + ":" + this.port + "/v1",
+                baseURL: this.baseurl,
     
-                apiKey: "petals" //Necessary but ignored
+                apiKey: "ollama" //Necessary but ignored
             })
         })
 
         var node = this;
         node.on('input', async function(msg, send, done) {
+            console.log(msg)
             send = send || function() { node.send.apply(node, arguments)}
 
             node.status({})
@@ -63,7 +65,8 @@ module.exports = function(RED) {
                     stream: true,
                 });
                 for await (const chunk of stream) {
-                    payload += chunk.choices[0]?.delta?.content || '';
+                    const newChunk = chunk.choices[0]?.delta?.content || '';
+                    payload += newChunk
                 }
             } else {
                 const chatComplete = await openai.chat.completions.create({
@@ -82,5 +85,5 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType("petals", Petals)
+    RED.nodes.registerType("ollama", Ollama)
 }

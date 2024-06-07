@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('task', {
+        category: 'ReEnvision AI',
+        color: '#E6E0F8',
+        defaults: {
+            name: {value:""},
+            description: {value: ""},
+            expected_output: {value: ""}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "serial.svg",
+        label: function() {
+            return this.name || "Task";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="task">
+    <div class="form-row">
+        <label for="node-input-name">Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-description">Description</label>
+        <input type="text" id="node-input-description" placeholder="description">
+    </div>
+    <div class="form-row">
+        <label for="node-input-expected_output">Expected Output</label>
+        <input type="text" id="node-input-expected_output" placeholder="expected output">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="task">
+    <p>A task node</p>
+</script>
