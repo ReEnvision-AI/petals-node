@@ -16,10 +16,20 @@
       "petals-node": "petals-node.js",
       "agent-node": "agent-node.js",
       "task-node": "task-node.js",
-      "ollama-node": "ollama-node.js"
+      "ollama-node": "ollama-node.js",
+      "search-node": "search-node.js",
+      "summarize-node": "summarize-node.js",
+      "generate-node": "generate-plan.js",
+      "research-node": "research-content.js",
+      "write-node": "write-draft.js",
+      "critique-node": "critique.js",
+      "research-critique": "research-critique.js"
     }
   },
   "dependencies": {
-    "openai": "^4.49.1"
+    "fetch": "^1.1.0",
+    "ollama": "^0.5.2",
+    "openai": "^4.49.1",
+    "request": "^2.88.2"
   }
 }

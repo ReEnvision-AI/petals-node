@@ -1,0 +1,173 @@
+[
+    {
+        "id": "130504aeb2f2cf88",
+        "type": "tab",
+        "label": "Essay Writer",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "05353c0741958f7f",
+        "type": "function",
+        "z": "130504aeb2f2cf88",
+        "name": "END",
+        "func": "msg.payload = msg.values.draft\ndelete msg.values\ndelete msg.statesnapshots\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 280,
+        "wires": [
+            [
+                "4fb78b4b52165acf"
+            ]
+        ]
+    },
+    {
+        "id": "964b58e90296159f",
+        "type": "generate-plan",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "prompt": "Explain the theme of david copperfield",
+        "max_revisions": 2,
+        "x": 460,
+        "y": 340,
+        "wires": [
+            [
+                "70211c4c83419f8b"
+            ]
+        ]
+    },
+    {
+        "id": "70211c4c83419f8b",
+        "type": "research-content",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "x": 450,
+        "y": 420,
+        "wires": [
+            [
+                "64a82003506a079d"
+            ]
+        ]
+    },
+    {
+        "id": "64a82003506a079d",
+        "type": "write-draft",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "x": 720,
+        "y": 440,
+        "wires": [
+            [
+                "05353c0741958f7f"
+            ],
+            [
+                "c8d8a9dacf763b9c"
+            ]
+        ]
+    },
+    {
+        "id": "c8d8a9dacf763b9c",
+        "type": "critique",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "x": 960,
+        "y": 440,
+        "wires": [
+            [
+                "b2491fd4b34c621d"
+            ]
+        ]
+    },
+    {
+        "id": "120b67d47404a3ce",
+        "type": "http in",
+        "z": "130504aeb2f2cf88",
+        "name": "Essay Endpoint",
+        "url": "/essay",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "38841daa8d92f98d"
+            ]
+        ]
+    },
+    {
+        "id": "4fb78b4b52165acf",
+        "type": "http response",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 740,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "38841daa8d92f98d",
+        "type": "change",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "values",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "values.task",
+                "pt": "msg",
+                "to": "payload.prompt",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "values.max_revisions",
+                "pt": "msg",
+                "to": "payload.max_revisions",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "964b58e90296159f"
+            ]
+        ]
+    },
+    {
+        "id": "b2491fd4b34c621d",
+        "type": "research-critique",
+        "z": "130504aeb2f2cf88",
+        "name": "",
+        "x": 870,
+        "y": 560,
+        "wires": [
+            [
+                "64a82003506a079d"
+            ]
+        ]
+    }
+]

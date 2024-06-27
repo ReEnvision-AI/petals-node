@@ -24,6 +24,14 @@ module.exports = function(RED) {
             payload += "\nyou MUST return the actual complete content as the final answer, not a summary.\n\nBegin! This is VERY important to you, use the tools available and give your best Final Answer, your job depends on it!\n\n"
         }
 
+        if (msg.instructions) {
+            payload += "Instructions" + msg.instructions + "\n"
+        }
+
+        if (msg.code) {
+            payload += "Code: " + msg.code + "\n"
+        }
+
         if (msg.payload) {
             payload += "Insights: " + msg.payload + "\n"
         }

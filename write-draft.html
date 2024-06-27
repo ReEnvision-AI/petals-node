@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    RED.nodes.registerType('write-draft', {
+        category: 'ReEnvision AI Tools',
+        color: '#E6E0F8',
+        defaults: {
+            name: {value:""},
+        },
+        inputs: 1,
+        outputs: 2,
+        icon: "serial.svg",
+        label: function() {
+            return this.name || "Generate Draft";
+        }
+    });
+</script>
