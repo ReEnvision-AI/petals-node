@@ -2,11 +2,18 @@ module.exports = function(RED) {
     function Research(config){
         RED.nodes.createNode(this, config);
 
-        this.task = config.prompt
-        this.max_revisions = config.max_revisions
 
         var node = this;
         node.on('input', async function(msg, send, done){
+
+            let session_id = ''
+            if (msg.payload.session_id) {
+                session_id = msg.payload.session_id
+            } else {
+                const uuid = await import('uuid');
+                session_id = uuid.v4();
+                msg.payload.session_id = session_id;
+            }
 
             // set initial status
             this.status({fill:"blue",shape:"ring",text:"researching..."});
@@ -22,12 +29,11 @@ module.exports = function(RED) {
                 ] \n \
             }"
 
-            let state = new Object()
-            state.timestamp = Date.now()
 
-            let critique = msg.values.critique
+            let critique = msg.payload.critique
 
             let messages = []
+
             messages.push(
                 {'role': 'system', 'content': RESEARCH_CRITIQUE_PROMPT}
             );
@@ -40,19 +46,17 @@ module.exports = function(RED) {
             const ollama = new ol.Ollama()
 
             const response = await ollama.chat({
-                model: this.context().flow.get('model'),
+                model: 'llama3',
                 messages: messages,
                 format: 'json',
                 temperature: 0,
             })
 
+            messages.push(response.message)
+
             let queries = JSON.parse(response.message.content)['search_queries']
 
             var content = []
-
-            if (msg.values.content && msg.values.content.length > 0) {
-                content = msg.values.content
-            }
 
             var f = await import('fetch')
 
@@ -80,15 +84,13 @@ module.exports = function(RED) {
                     content.push(x)
                 }
             }
-            state.lnode = "research_critique"
-            msg.values.content = content
-            msg.values.count = msg.values.count + 1
-            state.values = JSON.parse(JSON.stringify(msg.values))
-            msg.statesnapshots.push(state)
-            msg.messages = messages
+
+            msg.payload.content = content
+            msg.payload.created = Date.now()
 
             send(msg);
             this.status({fill:"green",shape:"dot",text:"done"});
+
             done();
 
         });
