@@ -5,7 +5,11 @@ module.exports = function(RED) {
         //this.expected_output = config.expected_output
 
         var node = this;
-        node.on('input', function(msg, send, done){
+        node.on('input', async function(msg, send, done){
+
+            const dotenv = await import('dotenv');
+            dotenv.config();
+            API_KEY = process.env.SERPER_API_KEY;
             
             msg.tool = new Object()
             //msg.task.description = node.description
@@ -16,7 +20,7 @@ module.exports = function(RED) {
                 'method': 'POST',
                 'url': 'https://google.serper.dev/search',
                 'headers': {
-                    'X-API-KEY': '8114e28d0138cf68209afaaf660fc187beacafd4',
+                    'X-API-KEY': API_KEY,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

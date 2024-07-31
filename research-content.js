@@ -44,6 +44,11 @@ module.exports = function(RED) {
 
             var ol = await import('ollama')
 
+            var dotenv = await import('dotenv')
+            dotenv.config()
+
+            const API_KEY = process.env.TAVILY_API_KEY
+
             const ollama = new ol.Ollama()
 
             const response = await ollama.chat({
@@ -65,7 +70,7 @@ module.exports = function(RED) {
 
             for (let i in queries) {
                 const raw = JSON.stringify({
-                    "api_key": "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",
+                    "api_key": TAVILY_API_KEY,
                     "query": queries[i],
                     "max_results": 2
                 });

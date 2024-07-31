@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "fetch": "^1.1.0",
     "ollama": "^0.5.2",
     "openai": "^4.49.1",
